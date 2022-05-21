@@ -1,0 +1,88 @@
+{
+  "name": "@perkinelmer/server-time-api",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:PerkinElmer/server-time.git"
+  },
+  "pkg": {
+    "assets": [
+      ".env.production"
+    ]
+  },
+  "version": "1.0.0",
+  "description": "server time sample API",
+  "main": "dist/index.js",
+  "bin": "dist/index.js",
+  "engines": {
+    "node": "^14.0.0",
+    "npm": ">= 7.0.0"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsc -p tsconfig.production.json",
+    "postbuild": "ef-tspm",
+    "build:dev": "npm run clean && npm run lint:fix && cross-env tsc",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "start:dev": "cross-env node dist/index.js",
+    "start:watch": "cross-env ts-node-dev ./index.ts",
+    "start:testing": "npm run build:dev && cross-env NODE_ENV=testing node dist/index.js",
+    "test": "cross-env NODE_ENV=unittesting npx jest",
+    "lint": "eslint -c .eslintrc.js --no-eslintrc --ext .js,.ts,.tsx .",
+    "lint:fix": "eslint -c .eslintrc.js --no-eslintrc --fix --ext .js,.ts,.tsx .",
+    "pkg": "pkg . --targets node14-win-x64 --out-path output"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@ef-carbon/tspm": "^2.2.5",
+    "@types/eslint": "^7.28.0",
+    "@types/lodash": "^4.14.171",
+    "@types/node": "^17.0.4",
+    "@typescript-eslint/eslint-plugin": "^4.3.0",
+    "@typescript-eslint/parser": "^4.3.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "pkg": "^5.6.0",
+    "prettier": "^2.1.1",
+    "protobufjs": "^6.8.9",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.2.0",
+    "ts-node-dev": "^1.1.8",
+    "ts-proto": "^1.83.0",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "@moonwalker/graphql-nats-subscriptions": "^0.1.7",
+    "@types/express": "^4.17.2",
+    "@types/faker": "^4.1.12",
+    "@types/jsonwebtoken": "^8.5.6",
+    "@types/uuid": "^8.0.0",
+    "apollo-datasource": "^0.9.0",
+    "apollo-datasource-rest": "^0.14.0",
+    "apollo-link": "^1.2.14",
+    "apollo-server": "^2.25.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-graphql": "^0.12.0",
+    "faker": "^4.1.0",
+    "graphql": "^14.7.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^2.0.4",
+    "lodash": "^4.17.21",
+    "module-alias": "^2.2.2",
+    "nats": "^2.6.1",
+    "path": "^0.12.7",
+    "pg": "^7.18.2",
+    "pg-hstore": "^2.3.3",
+    "winston": "^3.6.0",
+    "winston-daily-rotate-file": "^4.6.1"
+  },
+  "_moduleAliases": {
+    "@api": "dist/src/api",
+    "@data": "dist/src/data",
+    "@gc-apollo": "dist/src/apollo"
+  }
+}

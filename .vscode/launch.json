@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        
+    
+        {
+            "type": "node-terminal",
+            "name": "Run Script: start:dev",
+            "request": "launch",
+            "command": "npm run start:dev",
+            "cwd": "${workspaceFolder}/api",
+            "runtimeVersion": "14.18.1"
+        }
+    ]
+}

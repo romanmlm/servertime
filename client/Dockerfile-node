@@ -1,0 +1,21 @@
+FROM node:14
+
+WORKDIR /home/node/app
+
+RUN apt-get install -y python make g++
+
+COPY package*.json ./
+
+RUN mkdir -p ./node_modules
+RUN chown -R node:node ./node_modules
+RUN npm install typescript -g
+
+RUN npm install 
+
+COPY . .
+
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ["npm", " start"]

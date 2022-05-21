@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": "src",
+    "watch": true,
+    "types": [
+      "jest"
+    ],
+    "noFallthroughCasesInSwitch": true,
+    "jsx": "react",
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true
+  },
+  "include": [
+    "src",
+    "apollo.config.js",
+    "declaration.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "storybook-static",
+    "**/*.test.tsx",
+    "__tests__",
+    "**/*.stories.tsx"
+  ],
+  "modulePaths": [
+    "node_modules",
+    "src"
+  ]
+}

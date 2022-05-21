@@ -1,0 +1,8 @@
+node_modules/
+public/
+build/
+graphql/
+__tests__
+__generated__
+**/*.test.tsx
+**/*.stories.tsx

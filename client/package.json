@@ -1,0 +1,64 @@
+{
+  "name": "@perkinelmer/server-time-client",
+  "description": "Server Time Client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.4.15",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "4.0.0-alpha.60",
+    "@mui/x-data-grid": "^4.0.0",
+    "ajv": "^6.12.5",
+    "classnames": "^2.2.6",
+    "flat": "^5.0.2",
+    "formik": "^2.2.6",
+    "graphql": "^15.4.0",
+    "history": "^4.10.1",
+    "lodash": "^4.17.20",
+    "material-ui-popup-state": "^1.8.3",
+    "notistack": "^1.0.10",
+    "oidc-client": "^1.11.5",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^6.10.1",
+    "react-intl": "^5.25.1",
+    "subscriptions-transport-ws": "^0.9.17",
+    "typeface-noto-sans": "^1.1.13",
+    "yup": "^0.32.9"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "rimraf build && craco build",
+    "codegen:help": "apollo client:codegen --help",
+    "codegen": "apollo client:codegen --config=apollo.config.js --includes=src/**/*.gql.ts --endpoint=http://localhost:4000/graphql --target=typescript --tagName=gql --tsFileExtension=d.ts --globalTypesFile=src/app/GCApp/apollo/queries/globalTypes.ts & apollo client:download-schema --endpoint=http://localhost:4000/graphql src/app/GCApp/apollo/schema.json && npx pretty-quick --pattern \"**/__generated__/*.ts\"",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@craco/craco": "^6.2.0",
+    "@types/classnames": "^2.2.10",
+    "@types/faker": "^4.1.11",
+    "@types/flat": "^5.0.1",
+    "@types/history": "^4.7.8",
+    "@types/jest": "^26.0.9",
+    "@types/lodash": "^4.14.162",
+    "@types/node": "^12.12.35",
+    "@types/react": "^16.9.53",
+    "@types/react-dom": "^16.9.6",
+    "react-scripts": "^4.0.3"
+  }
+}
