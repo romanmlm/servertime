@@ -6,7 +6,7 @@ import (
 	"os/signal"
 
 	"github.com/nats-io/nats.go"
-	"github.com/perkinelmer/servertimenotifier/notifier"
+	"github.com/romanmlm/servertime/servertimenotifier/notifier"
 )
 
 func main() {
