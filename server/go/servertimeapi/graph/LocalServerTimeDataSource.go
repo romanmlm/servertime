@@ -5,7 +5,7 @@ package graph
 // 	"log"
 // 	"time"
 
-// 	"github.com/perkinelmer/servertime/graph/model"
+// 	"github.com/romanmlm/servertime/servertimeapi/graph/model"
 // )
 
 // type LocalServerTimeDataSource struct {

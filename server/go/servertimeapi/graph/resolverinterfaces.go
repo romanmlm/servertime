@@ -1,6 +1,6 @@
 package graph
 
-import "github.com/perkinelmer/servertime/graph/model"
+import "github.com/romanmlm/servertime/servertimeapi/graph/model"
 
 type ServerTimeDataSource interface {
 	addServer(name string) (string, error)

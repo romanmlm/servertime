@@ -1,6 +1,6 @@
 package graph
 
-import "github.com/perkinelmer/servertime/graph/model"
+import "github.com/romanmlm/servertime/servertimeapi/graph/model"
 
 type addServerReply struct {
 	ID      string `json:"id,omitempty"`

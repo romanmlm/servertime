@@ -35,7 +35,7 @@ resolver:
 # gqlgen will search for any type names in the schema in these go packages
 # if they match it will use them, otherwise it will generate them.
 #autobind:
-#  - "github.com/perkinelmer/servertime/graph/custommodels"
+#  - "github.com/romanmlm/servertime/servertimeapi/graph/custommodels"
 
 # This section declares type mapping between the GraphQL and go type systems
 #

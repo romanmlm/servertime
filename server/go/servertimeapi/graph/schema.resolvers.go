@@ -6,8 +6,8 @@ package graph
 import (
 	"context"
 
-	"github.com/perkinelmer/servertime/graph/generated"
-	"github.com/perkinelmer/servertime/graph/model"
+	"github.com/romanmlm/servertime/servertimeapi/graph/generated"
+	"github.com/romanmlm/servertime/servertimeapi/graph/model"
 )
 
 func (r *mutationResolver) AddServer(ctx context.Context, name string) (*model.AddServerResponse, error) {

@@ -5,7 +5,7 @@ package graph
 // 	"sync"
 // 	"time"
 
-// 	"github.com/perkinelmer/servertime/graph/model"
+// 	"github.com/romanmlm/servertime/servertimeapi/graph/model"
 // )
 
 // type LocalServerTimeSubscriber struct {

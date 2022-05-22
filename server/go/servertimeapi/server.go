@@ -42,7 +42,7 @@ func main() {
 		AllowCredentials: true,
 		Debug:            true,
 	}).Handler)
-graph
+
 	srv := handler.New(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
 		ServerTimeDataSource:  &graph.NatsServerTimeDataSource{Connection: connection},
 		ServerTimeSubscriber:  &graph.NatsServerTimeSubscriber{Connection: nc},

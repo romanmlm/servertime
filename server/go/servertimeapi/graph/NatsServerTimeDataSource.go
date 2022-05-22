@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go"
-	"github.com/perkinelmer/servertime/graph/model"
+	"github.com/romanmlm/servertime/servertimeapi/graph/model"
 )
 
 const (

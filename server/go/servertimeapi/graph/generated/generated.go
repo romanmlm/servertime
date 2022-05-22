@@ -14,7 +14,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	"github.com/perkinelmer/servertime/graph/model"
+	"github.com/romanmlm/servertime/servertimeapi/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -598,7 +598,7 @@ func (ec *executionContext) _Mutation_addServer(ctx context.Context, field graph
 	}
 	res := resTmp.(*model.AddServerResponse)
 	fc.Result = res
-	return ec.marshalNAddServerResponse2ᚖgithubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐAddServerResponse(ctx, field.Selections, res)
+	return ec.marshalNAddServerResponse2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐAddServerResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_addServer(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -822,7 +822,7 @@ func (ec *executionContext) _Query_servers(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.([]*model.Server)
 	fc.Result = res
-	return ec.marshalNServer2ᚕᚖgithubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐServerᚄ(ctx, field.Selections, res)
+	return ec.marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServerᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_servers(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -869,7 +869,7 @@ func (ec *executionContext) _Query_server(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.(*model.Server)
 	fc.Result = res
-	return ec.marshalOServer2ᚖgithubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐServer(ctx, field.Selections, res)
+	return ec.marshalOServer2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_server(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1235,7 +1235,7 @@ func (ec *executionContext) _ServersChanged_added(ctx context.Context, field gra
 	}
 	res := resTmp.([]*model.Server)
 	fc.Result = res
-	return ec.marshalNServer2ᚕᚖgithubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐServerᚄ(ctx, field.Selections, res)
+	return ec.marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServerᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_ServersChanged_added(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1329,7 +1329,7 @@ func (ec *executionContext) _ServersChanged_updated(ctx context.Context, field g
 	}
 	res := resTmp.([]*model.Server)
 	fc.Result = res
-	return ec.marshalNServer2ᚕᚖgithubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐServerᚄ(ctx, field.Selections, res)
+	return ec.marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServerᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_ServersChanged_updated(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1451,7 +1451,7 @@ func (ec *executionContext) _Subscription_serversChanged(ctx context.Context, fi
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalNServersChanged2ᚖgithubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐServersChanged(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalNServersChanged2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServersChanged(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -3890,11 +3890,11 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) marshalNAddServerResponse2githubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐAddServerResponse(ctx context.Context, sel ast.SelectionSet, v model.AddServerResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNAddServerResponse2githubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐAddServerResponse(ctx context.Context, sel ast.SelectionSet, v model.AddServerResponse) graphql.Marshaler {
 	return ec._AddServerResponse(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNAddServerResponse2ᚖgithubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐAddServerResponse(ctx context.Context, sel ast.SelectionSet, v *model.AddServerResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNAddServerResponse2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐAddServerResponse(ctx context.Context, sel ast.SelectionSet, v *model.AddServerResponse) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -3981,7 +3981,7 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
-func (ec *executionContext) marshalNServer2ᚕᚖgithubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐServerᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Server) graphql.Marshaler {
+func (ec *executionContext) marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServerᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Server) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -4005,7 +4005,7 @@ func (ec *executionContext) marshalNServer2ᚕᚖgithubᚗcomᚋperkinelmerᚋse
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNServer2ᚖgithubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐServer(ctx, sel, v[i])
+			ret[i] = ec.marshalNServer2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServer(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -4025,7 +4025,7 @@ func (ec *executionContext) marshalNServer2ᚕᚖgithubᚗcomᚋperkinelmerᚋse
 	return ret
 }
 
-func (ec *executionContext) marshalNServer2ᚖgithubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐServer(ctx context.Context, sel ast.SelectionSet, v *model.Server) graphql.Marshaler {
+func (ec *executionContext) marshalNServer2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServer(ctx context.Context, sel ast.SelectionSet, v *model.Server) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -4035,11 +4035,11 @@ func (ec *executionContext) marshalNServer2ᚖgithubᚗcomᚋperkinelmerᚋserve
 	return ec._Server(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNServersChanged2githubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐServersChanged(ctx context.Context, sel ast.SelectionSet, v model.ServersChanged) graphql.Marshaler {
+func (ec *executionContext) marshalNServersChanged2githubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServersChanged(ctx context.Context, sel ast.SelectionSet, v model.ServersChanged) graphql.Marshaler {
 	return ec._ServersChanged(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNServersChanged2ᚖgithubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐServersChanged(ctx context.Context, sel ast.SelectionSet, v *model.ServersChanged) graphql.Marshaler {
+func (ec *executionContext) marshalNServersChanged2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServersChanged(ctx context.Context, sel ast.SelectionSet, v *model.ServersChanged) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -4343,7 +4343,7 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) marshalOServer2ᚖgithubᚗcomᚋperkinelmerᚋservertimeᚋgraphᚋmodelᚐServer(ctx context.Context, sel ast.SelectionSet, v *model.Server) graphql.Marshaler {
+func (ec *executionContext) marshalOServer2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServer(ctx context.Context, sel ast.SelectionSet, v *model.Server) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
