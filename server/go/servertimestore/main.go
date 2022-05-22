@@ -7,7 +7,7 @@ import (
 	"os/signal"
 
 	"github.com/nats-io/nats.go"
-	"github.com/romanmlm/servertimestore/server"
+	"github.com/romanmlm/servertime/servertimestore/server"
 )
 
 func main() {

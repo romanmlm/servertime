@@ -1,4 +1,4 @@
-module github.com/romanmlm/servertimestore
+module github.com/romanmlm/servertime/servertimestore
 
 go 1.18
 
