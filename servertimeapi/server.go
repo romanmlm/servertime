@@ -20,13 +20,23 @@ import (
 
 const defaultPort = "4000"
 
+func getNatsUrl() string {
+	url, ok := os.LookupEnv("NATS_URL")
+	if ok {
+		log.Println("Found NATS_URL environment variable:", url)
+		return url
+	}
+	log.Println("NATS_URL environment variable is not defined. Using the default:", nats.DefaultURL)
+	return nats.DefaultURL
+}
+
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
 	}
 
-	log.Println("Connecting to nats at", nats.DefaultURL)
+	log.Println("Connecting to nats at", getNatsUrl())
 	nc, err := nats.Connect(nats.DefaultURL)
 
 	if err != nil {

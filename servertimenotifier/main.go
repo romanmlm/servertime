@@ -9,6 +9,16 @@ import (
 	"github.com/romanmlm/servertime/servertimenotifier/notifier"
 )
 
+func getNatsUrl() string {
+	url, ok := os.LookupEnv("NATS_URL")
+	if ok {
+		log.Println("Found NATS_URL environment variable:", url)
+		return url
+	}
+	log.Println("NATS_URL environment variable is not defined. Using the default:", nats.DefaultURL)
+	return nats.DefaultURL
+}
+
 func main() {
 	println("Hello from servertimenotifier")
 	exitChannel := make(chan os.Signal)
@@ -18,7 +28,7 @@ func main() {
 	defer tickerNotifier.Close()
 
 	log.Println("Connecting to nats")
-	nn, err := notifier.InitNatsNotifier(nats.DefaultURL, tickerNotifier)
+	nn, err := notifier.InitNatsNotifier(getNatsUrl(), tickerNotifier)
 
 	if err != nil {
 		panic(err)
