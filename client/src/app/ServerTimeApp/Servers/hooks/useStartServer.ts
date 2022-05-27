@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useCallback } from "react";
+import { IS_SERVER_RUNNING } from "./graphql/isServerRunning.gql";
 import { START_SERVER } from "./graphql/startServer.gql";
 import {
   StartServer,
@@ -7,7 +8,11 @@ import {
 } from "./graphql/__generated__/StartServer";
 
 export function useStartServer() {
-  const [startServer] = useMutation<StartServer, StartServerVariables>(START_SERVER);
+  const [startServer] = useMutation<StartServer, StartServerVariables>(START_SERVER, {
+    refetchQueries: [
+      IS_SERVER_RUNNING
+    ]
+  });
 
   return useCallback(
     async (id: string) => {

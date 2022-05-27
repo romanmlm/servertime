@@ -1,6 +1,7 @@
 type Server {
   id: ID!
   name: String!
+  running: Boolean!
 }
 
 type ServerTime {

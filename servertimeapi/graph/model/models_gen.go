@@ -2,13 +2,12 @@
 
 package model
 
+import (
+	"github.com/romanmlm/servertime/servertimeapi/graph/custommodel"
+)
+
 type AddServerResponse struct {
 	ID string `json:"id"`
-}
-
-type Server struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
 }
 
 type ServerTime struct {
@@ -17,7 +16,7 @@ type ServerTime struct {
 }
 
 type ServersChanged struct {
-	Added   []*Server `json:"added"`
-	Removed []string  `json:"removed"`
-	Updated []*Server `json:"updated"`
+	Added   []*custommodel.Server `json:"added"`
+	Removed []string              `json:"removed"`
+	Updated []*custommodel.Server `json:"updated"`
 }

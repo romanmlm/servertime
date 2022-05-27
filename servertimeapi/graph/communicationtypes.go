@@ -1,6 +1,8 @@
 package graph
 
-import "github.com/romanmlm/servertime/servertimeapi/graph/model"
+import (
+	"github.com/romanmlm/servertime/servertimeapi/graph/custommodel"
+)
 
 type addServerReply struct {
 	ID      string `json:"id,omitempty"`
@@ -9,9 +11,9 @@ type addServerReply struct {
 }
 
 type getServerReply struct {
-	Server  *model.Server `json:"server,omitempty"`
-	Success bool          `json:"success"`
-	Message string        `json:"message,omitempty"`
+	Server  *custommodel.Server `json:"server,omitempty"`
+	Success bool                `json:"success"`
+	Message string              `json:"message,omitempty"`
 }
 
 type removeServerReply struct {
@@ -20,9 +22,9 @@ type removeServerReply struct {
 }
 
 type listServersReply struct {
-	Servers []*model.Server `json:"servers,omitempty"`
-	Success bool            `json:"success"`
-	Message string          `json:"message,omitempty"`
+	Servers []*custommodel.Server `json:"servers,omitempty"`
+	Success bool                  `json:"success"`
+	Message string                `json:"message,omitempty"`
 }
 
 type startStopNotifierReply struct {

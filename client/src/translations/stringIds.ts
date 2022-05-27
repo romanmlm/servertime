@@ -4,5 +4,6 @@
 // TIP: You can use VS code extensions for sorting (e.g. Alphabetical Sorter)
 
 export const ADD_SERVER = 'AddServer';
+export const NOT_RUNNING = 'NotRunning';
 export const REMOVE_SERVER = 'RemoveServer';
 export const SERVER_NAME = 'ServerName' ;

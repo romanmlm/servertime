@@ -9,14 +9,14 @@ export const Servers: FC = () => {
     const serverItems: ServerItem[] = useServers();
     const servers = useMemo(() => {
         return serverItems.map(item => (
-        <Grid item xs={3} key={item.id}>
+        <Grid item xs={1} key={item.id}>
             <Server {...item}/>
         </Grid>));
     }, [serverItems]);
 
     return (
-        <Grid container direction="column" justifyContent="flex-start">
-            <Grid item xs={3}>
+        <Grid container spacing={2} direction="column" justifyContent="flex-start">
+            <Grid item xs={4}>
                 <AddServer/>
             </Grid>
             {servers}

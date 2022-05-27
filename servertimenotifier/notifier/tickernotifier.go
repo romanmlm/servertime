@@ -84,6 +84,13 @@ func (t *TickerNotifier) List() ([]string, error) {
 	return ids, nil
 }
 
+func (t *TickerNotifier) IsServerRunning(id string) (bool, error) {
+	t.lock.RLock()
+	defer t.lock.RUnlock()
+	_, exists := t.tickers[id]
+	return exists, nil
+}
+
 func (t *TickerNotifier) GetNotifierChannel() <-chan struct {
 	d  time.Duration
 	id string

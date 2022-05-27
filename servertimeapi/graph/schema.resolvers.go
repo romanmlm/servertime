@@ -6,6 +6,7 @@ package graph
 import (
 	"context"
 
+	"github.com/romanmlm/servertime/servertimeapi/graph/custommodel"
 	"github.com/romanmlm/servertime/servertimeapi/graph/generated"
 	"github.com/romanmlm/servertime/servertimeapi/graph/model"
 )
@@ -30,12 +31,16 @@ func (r *mutationResolver) StopServer(ctx context.Context, id string) (bool, err
 	return r.Resolver.ServerTimeDataSource.stopServer(id)
 }
 
-func (r *queryResolver) Servers(ctx context.Context) ([]*model.Server, error) {
+func (r *queryResolver) Servers(ctx context.Context) ([]*custommodel.Server, error) {
 	return r.Resolver.ServerTimeDataSource.getServers()
 }
 
-func (r *queryResolver) Server(ctx context.Context, id string) (*model.Server, error) {
+func (r *queryResolver) Server(ctx context.Context, id string) (*custommodel.Server, error) {
 	return r.Resolver.ServerTimeDataSource.getServer(id)
+}
+
+func (r *serverResolver) Running(ctx context.Context, obj *custommodel.Server) (bool, error) {
+	return r.Resolver.ServerTimeDataSource.isServerRunning(obj.ID)
 }
 
 func (r *subscriptionResolver) ServerTick(ctx context.Context, id string) (<-chan int, error) {
@@ -52,9 +57,13 @@ func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResol
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
+// Server returns generated.ServerResolver implementation.
+func (r *Resolver) Server() generated.ServerResolver { return &serverResolver{r} }
+
 // Subscription returns generated.SubscriptionResolver implementation.
 func (r *Resolver) Subscription() generated.SubscriptionResolver { return &subscriptionResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+type serverResolver struct{ *Resolver }
 type subscriptionResolver struct{ *Resolver }

@@ -31,7 +31,7 @@
     "start": "craco start",
     "build": "rimraf build && craco build",
     "codegen:help": "apollo client:codegen --help",
-    "codegen": "apollo client:codegen --config=apollo.config.js --includes=src/**/*.gql.ts --endpoint=http://localhost:4000/graphql --target=typescript --tagName=gql --tsFileExtension=d.ts --globalTypesFile=src/app/GCApp/apollo/queries/globalTypes.ts & apollo client:download-schema --endpoint=http://localhost:4000/graphql src/app/GCApp/apollo/schema.json && npx pretty-quick --pattern \"**/__generated__/*.ts\"",
+    "codegen": "apollo client:codegen --config=apollo.config.js --includes=src/**/*.gql.ts --endpoint=http://localhost:4000/graphql --target=typescript --tagName=gql --tsFileExtension=d.ts --globalTypesFile=src/app/ServerTimeApp/apollo/globalTypes.ts & apollo client:download-schema --endpoint=http://localhost:4000/graphql src/app/ServerTimeApp/apollo/schema.json && npx pretty-quick --pattern \"**/__generated__/*.ts\"",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },

@@ -15,9 +15,10 @@ type NatsNotifier struct {
 }
 
 const (
-	START_NOTIFIER_MSG = "start-notifier"
-	STOP_NOTIFIER_MSG  = "stop-notifier"
-	LIST_NOTIFIERS_MSG = "list-notifiers"
+	START_NOTIFIER_MSG    = "start-notifier"
+	STOP_NOTIFIER_MSG     = "stop-notifier"
+	LIST_NOTIFIERS_MSG    = "list-notifiers"
+	IS_SERVER_RUNNING_MSG = "is-server-running"
 )
 
 func InitNatsNotifier(natsUrl string, notifier Notifier) (*NatsNotifier, error) {
@@ -47,6 +48,11 @@ func (n *NatsNotifier) Listen() error {
 		return err
 	}
 
+	err = n.subscribeToIsServerRunning()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -65,6 +71,11 @@ func (n *NatsNotifier) List() ([]string, error) {
 	return n.notifier.List()
 }
 
+func (n *NatsNotifier) IsServerRunning(id string) (bool, error) {
+	log.Println("Is server running for id:", id)
+	return n.notifier.IsServerRunning(id)
+}
+
 func (n *NatsNotifier) Close() {
 	log.Println("Closing nats notifier")
 	defer n.connection.Close()
@@ -79,6 +90,10 @@ func (n *NatsNotifier) Close() {
 	if _, ok := n.subscriptions[LIST_NOTIFIERS_MSG]; ok {
 		log.Println("Unsubscribing from:", LIST_NOTIFIERS_MSG)
 		n.subscriptions[LIST_NOTIFIERS_MSG].Unsubscribe()
+	}
+	if _, ok := n.subscriptions[IS_SERVER_RUNNING_MSG]; ok {
+		log.Println("Unsubscribing from:", IS_SERVER_RUNNING_MSG)
+		n.subscriptions[IS_SERVER_RUNNING_MSG].Unsubscribe()
 	}
 }
 
@@ -144,6 +159,28 @@ func (n *NatsNotifier) subscribeToList() error {
 	}
 
 	n.subscriptions[LIST_NOTIFIERS_MSG] = sub
+
+	return nil
+}
+
+func (n *NatsNotifier) subscribeToIsServerRunning() error {
+	log.Println("Subscribing to:", IS_SERVER_RUNNING_MSG)
+	sub, err := n.connection.Subscribe(IS_SERVER_RUNNING_MSG, func(sub, reply string, id string) {
+		log.Println("Handling", IS_SERVER_RUNNING_MSG)
+		isRunning, e := n.IsServerRunning(id)
+		if e != nil {
+			n.connection.Publish(reply, false)
+		} else {
+			n.connection.Publish(reply, isRunning)
+		}
+	})
+
+	if err != nil {
+		log.Println("Failed to subscribe to:", IS_SERVER_RUNNING_MSG)
+		return err
+	}
+
+	n.subscriptions[IS_SERVER_RUNNING_MSG] = sub
 
 	return nil
 }

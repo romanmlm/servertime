@@ -1,5 +1,6 @@
 {
   "AddServer": "Add Server",
+  "NotRunning": "Server not running",
   "RemoveServer": "Remove Server",
   "ServerName": "Server Name"
 }

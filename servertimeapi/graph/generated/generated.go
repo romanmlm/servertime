@@ -14,6 +14,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
+	"github.com/romanmlm/servertime/servertimeapi/graph/custommodel"
 	"github.com/romanmlm/servertime/servertimeapi/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
@@ -39,6 +40,7 @@ type Config struct {
 type ResolverRoot interface {
 	Mutation() MutationResolver
 	Query() QueryResolver
+	Server() ServerResolver
 	Subscription() SubscriptionResolver
 }
 
@@ -63,8 +65,9 @@ type ComplexityRoot struct {
 	}
 
 	Server struct {
-		ID   func(childComplexity int) int
-		Name func(childComplexity int) int
+		ID      func(childComplexity int) int
+		Name    func(childComplexity int) int
+		Running func(childComplexity int) int
 	}
 
 	ServerTime struct {
@@ -91,8 +94,11 @@ type MutationResolver interface {
 	StopServer(ctx context.Context, id string) (bool, error)
 }
 type QueryResolver interface {
-	Servers(ctx context.Context) ([]*model.Server, error)
-	Server(ctx context.Context, id string) (*model.Server, error)
+	Servers(ctx context.Context) ([]*custommodel.Server, error)
+	Server(ctx context.Context, id string) (*custommodel.Server, error)
+}
+type ServerResolver interface {
+	Running(ctx context.Context, obj *custommodel.Server) (bool, error)
 }
 type SubscriptionResolver interface {
 	ServerTick(ctx context.Context, id string) (<-chan int, error)
@@ -201,6 +207,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Server.Name(childComplexity), true
+
+	case "Server.running":
+		if e.complexity.Server.Running == nil {
+			break
+		}
+
+		return e.complexity.Server.Running(childComplexity), true
 
 	case "ServerTime.id":
 		if e.complexity.ServerTime.ID == nil {
@@ -343,6 +356,7 @@ var sources = []*ast.Source{
 	{Name: "graph/schema.graphqls", Input: `type Server {
   id: ID!
   name: String!
+  running: Boolean!
 }
 
 type ServerTime {
@@ -820,9 +834,9 @@ func (ec *executionContext) _Query_servers(ctx context.Context, field graphql.Co
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Server)
+	res := resTmp.([]*custommodel.Server)
 	fc.Result = res
-	return ec.marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServerᚄ(ctx, field.Selections, res)
+	return ec.marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋcustommodelᚐServerᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_servers(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -837,6 +851,8 @@ func (ec *executionContext) fieldContext_Query_servers(ctx context.Context, fiel
 				return ec.fieldContext_Server_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Server_name(ctx, field)
+			case "running":
+				return ec.fieldContext_Server_running(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Server", field.Name)
 		},
@@ -867,9 +883,9 @@ func (ec *executionContext) _Query_server(ctx context.Context, field graphql.Col
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*model.Server)
+	res := resTmp.(*custommodel.Server)
 	fc.Result = res
-	return ec.marshalOServer2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServer(ctx, field.Selections, res)
+	return ec.marshalOServer2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋcustommodelᚐServer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_server(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -884,6 +900,8 @@ func (ec *executionContext) fieldContext_Query_server(ctx context.Context, field
 				return ec.fieldContext_Server_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Server_name(ctx, field)
+			case "running":
+				return ec.fieldContext_Server_running(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Server", field.Name)
 		},
@@ -1031,7 +1049,7 @@ func (ec *executionContext) fieldContext_Query___schema(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Server_id(ctx context.Context, field graphql.CollectedField, obj *model.Server) (ret graphql.Marshaler) {
+func (ec *executionContext) _Server_id(ctx context.Context, field graphql.CollectedField, obj *custommodel.Server) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Server_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1075,7 +1093,7 @@ func (ec *executionContext) fieldContext_Server_id(ctx context.Context, field gr
 	return fc, nil
 }
 
-func (ec *executionContext) _Server_name(ctx context.Context, field graphql.CollectedField, obj *model.Server) (ret graphql.Marshaler) {
+func (ec *executionContext) _Server_name(ctx context.Context, field graphql.CollectedField, obj *custommodel.Server) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Server_name(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1114,6 +1132,50 @@ func (ec *executionContext) fieldContext_Server_name(ctx context.Context, field 
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Server_running(ctx context.Context, field graphql.CollectedField, obj *custommodel.Server) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Server_running(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Server().Running(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Server_running(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Server",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
 		},
 	}
 	return fc, nil
@@ -1233,9 +1295,9 @@ func (ec *executionContext) _ServersChanged_added(ctx context.Context, field gra
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Server)
+	res := resTmp.([]*custommodel.Server)
 	fc.Result = res
-	return ec.marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServerᚄ(ctx, field.Selections, res)
+	return ec.marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋcustommodelᚐServerᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_ServersChanged_added(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1250,6 +1312,8 @@ func (ec *executionContext) fieldContext_ServersChanged_added(ctx context.Contex
 				return ec.fieldContext_Server_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Server_name(ctx, field)
+			case "running":
+				return ec.fieldContext_Server_running(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Server", field.Name)
 		},
@@ -1327,9 +1391,9 @@ func (ec *executionContext) _ServersChanged_updated(ctx context.Context, field g
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Server)
+	res := resTmp.([]*custommodel.Server)
 	fc.Result = res
-	return ec.marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServerᚄ(ctx, field.Selections, res)
+	return ec.marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋcustommodelᚐServerᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_ServersChanged_updated(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1344,6 +1408,8 @@ func (ec *executionContext) fieldContext_ServersChanged_updated(ctx context.Cont
 				return ec.fieldContext_Server_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Server_name(ctx, field)
+			case "running":
+				return ec.fieldContext_Server_running(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Server", field.Name)
 		},
@@ -3440,7 +3506,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 
 var serverImplementors = []string{"Server"}
 
-func (ec *executionContext) _Server(ctx context.Context, sel ast.SelectionSet, obj *model.Server) graphql.Marshaler {
+func (ec *executionContext) _Server(ctx context.Context, sel ast.SelectionSet, obj *custommodel.Server) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, serverImplementors)
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
@@ -3453,15 +3519,35 @@ func (ec *executionContext) _Server(ctx context.Context, sel ast.SelectionSet, o
 			out.Values[i] = ec._Server_id(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "name":
 
 			out.Values[i] = ec._Server_name(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
+		case "running":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Server_running(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -3981,7 +4067,7 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
-func (ec *executionContext) marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServerᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Server) graphql.Marshaler {
+func (ec *executionContext) marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋcustommodelᚐServerᚄ(ctx context.Context, sel ast.SelectionSet, v []*custommodel.Server) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -4005,7 +4091,7 @@ func (ec *executionContext) marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋserve
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNServer2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServer(ctx, sel, v[i])
+			ret[i] = ec.marshalNServer2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋcustommodelᚐServer(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -4025,7 +4111,7 @@ func (ec *executionContext) marshalNServer2ᚕᚖgithubᚗcomᚋromanmlmᚋserve
 	return ret
 }
 
-func (ec *executionContext) marshalNServer2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServer(ctx context.Context, sel ast.SelectionSet, v *model.Server) graphql.Marshaler {
+func (ec *executionContext) marshalNServer2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋcustommodelᚐServer(ctx context.Context, sel ast.SelectionSet, v *custommodel.Server) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -4343,7 +4429,7 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) marshalOServer2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋmodelᚐServer(ctx context.Context, sel ast.SelectionSet, v *model.Server) graphql.Marshaler {
+func (ec *executionContext) marshalOServer2ᚖgithubᚗcomᚋromanmlmᚋservertimeᚋservertimeapiᚋgraphᚋcustommodelᚐServer(ctx context.Context, sel ast.SelectionSet, v *custommodel.Server) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
