@@ -3,7 +3,7 @@ import React, { FC, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { REMOVE_SERVER } from "translations/stringIds";
 import { useRemoveServer } from "./hooks";
-import DeleteIcon from '@material-ui/icons/DeleteForeverRounded';
+import DeleteIcon from '@material-ui/icons/DeleteRounded';
 import StartIcon from '@material-ui/icons/PlayArrowRounded';
 
 export const RemoveServer: FC<{id: string}> = ({id}) => {
@@ -13,7 +13,7 @@ export const RemoveServer: FC<{id: string}> = ({id}) => {
         removeServer(id);
     }, [removeServer, id]);
     return (
-        <IconButton color="primary" onClick={handleRemoveServer}>
+        <IconButton color="secondary" onClick={handleRemoveServer}>
             <DeleteIcon/>
         </IconButton>
     );

@@ -36,8 +36,9 @@ func main() {
 		port = defaultPort
 	}
 
-	log.Println("Connecting to nats at", getNatsUrl())
-	nc, err := nats.Connect(nats.DefaultURL)
+	natsUrl := getNatsUrl()
+	log.Println("Connecting to nats at", natsUrl)
+	nc, err := nats.Connect(natsUrl)
 
 	if err != nil {
 		panic(err)

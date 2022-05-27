@@ -10,5 +10,5 @@ export const ServerTick: FC<{ id: string }> = ({ id }) => {
   const isRunning = useIsServerRunning(id);
   if (isRunning)
     return <Typography variant="h3">{tick}</Typography>;
-  return <Typography variant="h3"><FormattedMessage id={NOT_RUNNING}/></Typography>;
+  return <Typography variant="h6"><FormattedMessage id={NOT_RUNNING}/></Typography>;
 };
