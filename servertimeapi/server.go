@@ -49,7 +49,7 @@ func main() {
 
 	router := chi.NewRouter()
 	router.Use(cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:4000", "http://localhost:3008"},
+		AllowedOrigins:   []string{"http://*:4000", "http://*:3008"},
 		AllowCredentials: true,
 		Debug:            true,
 	}).Handler)
