@@ -1,0 +1,52 @@
+{
+    http_port 5352
+}
+
+:5353 {
+
+	log {
+		output file log
+	}
+
+	encode zstd gzip
+	root * /www
+
+
+	route {
+
+		@websockets {
+            header Connection *Upgrade*
+            header Upgrade websocket
+        }
+
+        handle_path /api* {
+            rewrite * {path}
+
+            reverse_proxy @websockets localhost:4000
+            reverse_proxy localhost:4000
+        }
+
+        # old keycloak
+        # reverse_proxy /auth* 192.168.1.230:8080
+
+        handle_path /hydra* {
+            rewrite * {path}
+            reverse_proxy 192.168.1.230:4444
+        }
+
+        handle_path /auth* {
+            rewrite * {path}
+            reverse_proxy 192.168.1.230:3000
+        }
+
+        # DEV config for webpack dev server
+        #handle_path /* {
+        #    reverse_proxy @websockets localhost:3008
+        #    reverse_proxy localhost:3008
+        #}
+
+		try_files {path} {path}/ /index.html?{query}
+		file_server
+		
+	}
+}
